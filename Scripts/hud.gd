@@ -6,7 +6,7 @@ var hp_label: Label
 var current_hud_directive_panel: PanelContainer = null 
 
 func _ready():
-	add_to_group("hud")
+	add_to_group("hud") #
 	# Config Clé Bas Gauche
 	key_icon.anchor_left = 0; key_icon.anchor_top = 1
 	key_icon.offset_left = 20; key_icon.offset_top = -60
@@ -22,17 +22,20 @@ func _ready():
 	add_child(hp_label)
 	hp_label.anchor_left = 1; hp_label.anchor_right = 1
 	hp_label.offset_left = -280; hp_label.offset_top = 20
+	hp_label.add_theme_font_size_override("font_size", 24)
 
 func update_hp(hp: int):
-	if hp_label: hp_label.text = "VIES : " + str(hp)
+	if hp_label: 
+		hp_label.text = "VIES : " + str(hp)
+		hp_label.add_theme_color_override("font_color", Color.RED if hp <= 1 else Color.CYAN)
 
 func show_key():
-	key_icon.modulate = Color.WHITE
+	key_icon.modulate = Color.WHITE #
 	key_label.text = "PUCE RFID : OK"
 	key_label.add_theme_color_override("font_color", Color.GREEN)
 
 func show_hud_directive(lines: Array, header: String = "DIRECTIVE :", time: float = 4.0):
-	if current_hud_directive_panel: current_hud_directive_panel.queue_free()
+	if current_hud_directive_panel: current_hud_directive_panel.queue_free() #
 	current_hud_directive_panel = PanelContainer.new()
 	add_child(current_hud_directive_panel)
 	current_hud_directive_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
