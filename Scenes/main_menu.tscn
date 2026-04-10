@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://omcxgwd07co1"]
+
+[ext_resource type="Script" uid="uid://b3otv1tcdi2pb" path="res://Scripts/main_menu.gd" id="1_28flt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_erv1k"]
+font_size = 38
+
+[node name="MainMenu" type="Control" unique_id=1065634092]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28flt")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=613047412]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="." unique_id=676355846]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 776.0
+offset_bottom = 128.0
+text = "ESCAPE THE LAB"
+label_settings = SubResource("LabelSettings_erv1k")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="." unique_id=1615626253]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 192.0
+offset_right = 1024.0
+offset_bottom = 256.0
+text = "LANCER L'INFILTRATION"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

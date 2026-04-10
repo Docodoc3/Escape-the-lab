@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://do4nnrhxxsqr"]
+
+[ext_resource type="Texture2D" uid="uid://bqxf56a4l2n82" path="res://Assets/npc x1.png" id="1_acqhf"]
+[ext_resource type="Script" uid="uid://j3k1dwupmc2l" path="res://Scripts/npc.gd" id="1_xxsvc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_acqhf"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxsvc"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6unj"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1ryf"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ig1v"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6atyd"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xkex"]
+atlas = ExtResource("1_acqhf")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8gudg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_acqhf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxsvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6unj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1ryf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ig1v")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6atyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xkex")
+}],
+"loop": true,
+"name": &"talk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qi7up"]
+size = Vector2(15, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6nw3"]
+size = Vector2(19, 28)
+
+[node name="NPC" type="StaticBody2D" unique_id=177614550]
+script = ExtResource("1_xxsvc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=590782970]
+sprite_frames = SubResource("SpriteFrames_8gudg")
+animation = &"talk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1489731200]
+position = Vector2(0.5, 4)
+shape = SubResource("RectangleShape2D_qi7up")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=539345766]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=796495566]
+position = Vector2(0.5, 3)
+shape = SubResource("RectangleShape2D_a6nw3")

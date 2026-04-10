@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c6i3ss8mo2oq3"]
+
+[ext_resource type="Script" uid="uid://bkiqfed3a3nes" path="res://Scripts/hud.gd" id="1_e0onf"]
+[ext_resource type="Texture2D" uid="uid://cidvvhoriki0g" path="res://Assets/props and items x1.png" id="2_fccik"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjfho"]
+atlas = ExtResource("2_fccik")
+region = Rect2(204, 233, 8, 8)
+
+[node name="HUD" type="CanvasLayer" unique_id=387136051 groups=["hud"]]
+script = ExtResource("1_e0onf")
+
+[node name="KeyIcon" type="TextureRect" parent="." unique_id=1723873672]
+modulate = Color(0.18359044, 0.18359044, 0.18359044, 1)
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_bjfho")
+metadata/_edit_use_anchors_ = true

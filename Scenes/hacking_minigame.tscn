@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b12n7ta4dl3u"]
+
+[ext_resource type="Script" uid="uid://cc0fui12s3iuy" path="res://Scripts/hacking_minigame.gd" id="1_kk6tl"]
+
+[node name="HackingMinigame" type="CanvasLayer" unique_id=616965948]
+process_mode = 3
+script = ExtResource("1_kk6tl")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1692734519]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8745098)
+metadata/_edit_use_anchors_ = true

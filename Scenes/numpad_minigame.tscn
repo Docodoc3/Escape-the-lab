@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://0o878wf1ovy0"]
+
+[ext_resource type="Script" uid="uid://dxedmvk7bijpv" path="res://Scripts/numpad_minigame.gd" id="1_41klb"]
+
+[node name="NumpadMinigame" type="CanvasLayer" unique_id=322343660]
+process_mode = 3
+script = ExtResource("1_41klb")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=427635158]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.047058824, 0.047058824, 0.047058824, 0.88235295)
+metadata/_edit_use_anchors_ = true
+
+[node name="EcranCode" type="Label" parent="." unique_id=73471993]
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 768.0
+offset_bottom = 576.0

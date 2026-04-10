@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://csyx88sooy5l8"]
+
+[ext_resource type="Script" uid="uid://cvx51gtnb4bd3" path="res://Scripts/sentinel.gd" id="1_51je0"]
+[ext_resource type="Texture2D" uid="uid://cuog2hcyml4br" path="res://Assets/enemies x1.png" id="1_cuxs6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2opka"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fq4pl"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_likh5"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnxlj"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2e4b"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kyk2"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yy06b"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4506r"]
+atlas = ExtResource("1_cuxs6")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_51je0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2opka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq4pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_likh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnxlj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2e4b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kyk2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yy06b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4506r")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4wiga"]
+
+[node name="Sentinel" type="CharacterBody2D" unique_id=710510902 groups=["sentinelles"]]
+script = ExtResource("1_51je0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=18294030]
+position = Vector2(1, 1)
+sprite_frames = SubResource("SpriteFrames_51je0")
+animation = &"run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1109309176]
+position = Vector2(2, -2)
+shape = SubResource("CircleShape2D_4wiga")
+
+[node name="ZoneDetection" type="Area2D" parent="." unique_id=768448872]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ZoneDetection" unique_id=1257704191]
+polygon = PackedVector2Array(0, 0, 48, -17, 48, 16)
+
+[node name="Polygon2D" type="Polygon2D" parent="ZoneDetection/CollisionPolygon2D" unique_id=1359523473]
+color = Color(0.9315897, 0.07594871, 1.0973811e-05, 0.27058825)
+polygon = PackedVector2Array(0, 0, 48, -17, 48, 16)
+
+[connection signal="body_entered" from="ZoneDetection" to="." method="_on_zone_detection_body_entered"]

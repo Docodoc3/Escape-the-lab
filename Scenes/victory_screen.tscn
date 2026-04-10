@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://brilrqw6l8cru"]
+
+[ext_resource type="Script" uid="uid://cuk2k3n3ysrde" path="res://Scripts/victory_screen.gd" id="1_oq8vb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c3mmu"]
+font_size = 27
+
+[node name="VictoryScreen" type="Control" unique_id=2042067397]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oq8vb")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=887949706]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ColorRect" unique_id=859183795]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 64.0
+offset_right = 832.0
+offset_bottom = 128.0
+text = "SYSTÈME HACKÉ. ÉVASION RÉUSSIE."
+label_settings = SubResource("LabelSettings_c3mmu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="." unique_id=1506383761]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 192.0
+offset_right = 1024.0
+offset_bottom = 256.0
+text = "RETOURNER AU MENU"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
