@@ -2,8 +2,6 @@ extends CharacterBody2D
 
 const SPEED = 150.0
 var has_key: bool = false
-
-# --- SYSTÈME DE VIE ---
 var max_hp: int = 3
 var current_hp: int = 3
 
@@ -11,27 +9,23 @@ var current_hp: int = 3
 
 func _ready():
 	add_to_group("player")
-	# On attend que le HUD soit prêt
+	# Mise à jour initiale des PV via le HUD
 	get_tree().call_group("hud", "call_deferred", "update_hp", current_hp)
 
 func _physics_process(_delta):
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * SPEED
-
 	if direction != Vector2.ZERO:
 		anim.play("run")
 		if direction.x != 0:
 			anim.flip_h = direction.x < 0
 	else:
 		anim.play("idle")
-
 	move_and_slide()
 
-# --- GESTION DES DÉGÂTS ET MORT ---
 func take_damage():
 	current_hp -= 1
 	get_tree().call_group("hud", "update_hp", current_hp)
-	
 	if current_hp <= 0:
 		die()
 	else:
@@ -40,22 +34,19 @@ func take_damage():
 		tween.tween_property(anim, "modulate", Color.WHITE, 0.1)
 
 func die():
-	get_tree().paused = true # On stoppe le mouvement du jeu
+	get_tree().paused = true
 	show_game_over_screen()
 
 func show_game_over_screen():
 	var canvas = CanvasLayer.new()
-	# Important : cet écran doit fonctionner même quand le jeu est en pause
 	canvas.process_mode = Node.PROCESS_MODE_ALWAYS 
 	get_tree().root.add_child(canvas)
 	
-	# Fond sombre
 	var rect = ColorRect.new()
 	rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	rect.color = Color(0, 0, 0, 0.8)
+	rect.color = Color(0, 0, 0, 0.85)
 	canvas.add_child(rect)
 	
-	# Texte PERDU
 	var label = Label.new()
 	label.text = "MISSION ÉCHOUÉE"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -65,11 +56,10 @@ func show_game_over_screen():
 	label.add_theme_color_override("font_color", Color.RED)
 	canvas.add_child(label)
 	
-	# Bouton RECOMMENCER
 	var btn_retry = Button.new()
 	btn_retry.text = "RECOMMENCER"
 	btn_retry.custom_minimum_size = Vector2(250, 60)
-	btn_retry.position = Vector2(450, 350) # À ajuster selon ta résolution
+	btn_retry.position = Vector2(450, 350)
 	btn_retry.pressed.connect(func(): 
 		get_tree().paused = false
 		get_tree().reload_current_scene()
@@ -77,7 +67,6 @@ func show_game_over_screen():
 	)
 	canvas.add_child(btn_retry)
 	
-	# Bouton QUITTER (Retour Menu)
 	var btn_quit = Button.new()
 	btn_quit.text = "QUITTER"
 	btn_quit.custom_minimum_size = Vector2(250, 60)

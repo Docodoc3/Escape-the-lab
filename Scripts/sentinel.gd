@@ -2,11 +2,9 @@ extends CharacterBody2D
 
 func _on_zone_detection_body_entered(body):
 	if body.name == "Player":
-		print("Joueur détecté !")
+		print("Détection !")
 		body.take_damage()
-		
-		# On téléporte le joueur à un endroit sûr (coordonnées sol bleu)
-		# Ajuste ces valeurs si tu veux un point précis
+		# On place le joueur sur une zone de sol dégagée
 		body.global_position = Vector2(150, 720) 
 
 func disable():

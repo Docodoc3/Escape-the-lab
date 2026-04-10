@@ -1,13 +1,13 @@
 extends Node2D
 
 func _ready():
-	# On attend 1 petite seconde le temps que le jeu apparaisse, puis on lance le message
-	get_tree().create_timer(1.0).timeout.connect(show_intro_rules)
-
-func show_intro_rules():
-	# On appelle directement ta super fonction de HUD !
-	get_tree().call_group("hud", "show_hud_directive", [
+	# On attend une image pour s'assurer que le HUD est prêt
+	await get_tree().process_frame
+	
+	# Envoi des consignes initiales au groupe HUD
+	var consignes = [
 		"Infiltration du complexe en cours.",
-		"Règles : Évitez le champ de vision des sentinelles.",
-		"Objectif : Trouvez le terminal de sortie, entrez le code secret et fuyez."
-	], "DIRECTIVE INITIALE :")
+		"Objectif : Trouvez la puce RFID pour déverrouiller la sortie.",
+		"Attention : Évitez le champ de vision des sentinelles."
+	]
+	get_tree().call_group("hud", "show_hud_directive", consignes, "ORDRE DE MISSION :")
