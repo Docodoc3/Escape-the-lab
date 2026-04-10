@@ -1,49 +1,101 @@
 extends CharacterBody2D
 
-# Vitesse de déplacement du joueur
 const SPEED = 150.0
-
 var has_key: bool = false
 
-# On récupère le noeud d'animation pour pouvoir le contrôler
+# --- SYSTÈME DE VIE ---
+var max_hp: int = 3
+var current_hp: int = 3
+
 @onready var anim = $AnimatedSprite2D
 
 func _ready():
 	add_to_group("player")
+	# On attend que le HUD soit prêt
+	get_tree().call_group("hud", "call_deferred", "update_hp", current_hp)
 
-func _physics_process(delta):
-	# 1. Obtenir la direction voulue par le joueur (flèches ou joystick)
-	# On utilise maintenant nos propres actions ZQSD !
+func _physics_process(_delta):
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	
-	# 2. Calculer la vélocité
 	velocity = direction * SPEED
 
-	# 3. Gérer les animations et l'orientation du sprite
 	if direction != Vector2.ZERO:
 		anim.play("run")
-		# Si on se déplace sur l'axe X, on retourne le sprite selon la direction
 		if direction.x != 0:
 			anim.flip_h = direction.x < 0
 	else:
 		anim.play("idle")
 
-	# 4. Appliquer le mouvement et gérer les collisions avec les murs
 	move_and_slide()
 
+# --- GESTION DES DÉGÂTS ET MORT ---
+func take_damage():
+	current_hp -= 1
+	get_tree().call_group("hud", "update_hp", current_hp)
+	
+	if current_hp <= 0:
+		die()
+	else:
+		var tween = create_tween()
+		tween.tween_property(anim, "modulate", Color.RED, 0.1)
+		tween.tween_property(anim, "modulate", Color.WHITE, 0.1)
+
+func die():
+	get_tree().paused = true # On stoppe le mouvement du jeu
+	show_game_over_screen()
+
+func show_game_over_screen():
+	var canvas = CanvasLayer.new()
+	# Important : cet écran doit fonctionner même quand le jeu est en pause
+	canvas.process_mode = Node.PROCESS_MODE_ALWAYS 
+	get_tree().root.add_child(canvas)
+	
+	# Fond sombre
+	var rect = ColorRect.new()
+	rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	rect.color = Color(0, 0, 0, 0.8)
+	canvas.add_child(rect)
+	
+	# Texte PERDU
+	var label = Label.new()
+	label.text = "MISSION ÉCHOUÉE"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	label.offset_top = 200
+	label.add_theme_font_size_override("font_size", 45)
+	label.add_theme_color_override("font_color", Color.RED)
+	canvas.add_child(label)
+	
+	# Bouton RECOMMENCER
+	var btn_retry = Button.new()
+	btn_retry.text = "RECOMMENCER"
+	btn_retry.custom_minimum_size = Vector2(250, 60)
+	btn_retry.position = Vector2(450, 350) # À ajuster selon ta résolution
+	btn_retry.pressed.connect(func(): 
+		get_tree().paused = false
+		get_tree().reload_current_scene()
+		canvas.queue_free()
+	)
+	canvas.add_child(btn_retry)
+	
+	# Bouton QUITTER (Retour Menu)
+	var btn_quit = Button.new()
+	btn_quit.text = "QUITTER"
+	btn_quit.custom_minimum_size = Vector2(250, 60)
+	btn_quit.position = Vector2(450, 450)
+	btn_quit.pressed.connect(func():
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
+		canvas.queue_free()
+	)
+	canvas.add_child(btn_quit)
+
 func _input(event):
-	if event.is_action_pressed("interact"): # La touche E
-		print("J'ai appuyé sur E !")
-		# On regarde toutes les zones qui touchent le joueur
+	if event.is_action_pressed("interact"):
 		var targets = $InteractionArea.get_overlapping_areas()
-		
 		for target in targets:
-			# Si l'objet a une fonction interact, on l'appelle
 			if target.has_method("interact"):
 				target.interact(self)
-				break # On n'interagit qu'avec un objet à la fois
-			
-			# Cas spécial pour la porte (on cherche l'interaction sur le parent StaticBody)
+				break
 			elif target.get_parent().has_method("interact"):
 				target.get_parent().interact(self)
 				break
